@@ -3,7 +3,6 @@ package execs
 import (
 	"deadlift3008/ai-agents/clients"
 	"fmt"
-	"os"
 	"strings"
 )
 
@@ -22,16 +21,24 @@ Action: FINAL: <ответ, в котором ты уверен>
 На каждом шаге ОБЯЗАТЕЛЬНО найди хотя бы одну возможную ошибку
 `
 
-func ReAct(question string, retryCount int) (string, error) {
-	openRouterClient := clients.NewOpenRouter(os.Getenv("OPEN_ROUTER_KEY"))
+type ReactExecutor struct {
+	openRouterClient *clients.OpenRouter
+}
 
+func NewReactExecutor(openRouterClient *clients.OpenRouter) *ReactExecutor {
+	return &ReactExecutor{
+		openRouterClient: openRouterClient,
+	}
+}
+
+func (re *ReactExecutor) ReAct(question string, retryCount int) (string, error) {
 	dialog := []clients.Message{{Role: "user", Content: question}}
 
 	var resText string
 	var err error
 
 	for range retryCount {
-		resText, err = openRouterClient.RequestLLM(REACT_SYSTEM, dialog)
+		resText, err = re.openRouterClient.RequestLLM(REACT_SYSTEM, dialog)
 
 		if err != nil {
 			fmt.Println("GAVNO!", err)
