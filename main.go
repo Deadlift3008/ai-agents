@@ -9,7 +9,7 @@ import (
 func main() {
 	openRouterClient := clients.NewOpenRouter(os.Getenv("OPEN_ROUTER_KEY"))
 
-	resText, err := openRouterClient.RequestLLM("Какой у тебя размер контекста?")
+	resText, err := openRouterClient.RequestLLM("ты пират, отвечай как пират", []string{"Сколько время?"})
 
 	if err != nil {
 		fmt.Println("ну параша", err)
