@@ -1,19 +1,18 @@
 package main
 
 import (
-	"deadlift3008/ai-agents/clients"
+	"deadlift3008/ai-agents/execs"
 	"fmt"
-	"os"
 )
 
+// Если в 12 часов ночи идет дождь, то можно ли ожидать, что через 72 часа будет солнечная погода?
+// Какое изобретение позволяет смотреть сквозь стены?
 func main() {
-	openRouterClient := clients.NewOpenRouter(os.Getenv("OPEN_ROUTER_KEY"))
+	//answer, _ := execs.ReAct("Если в 12 часов ночи идет дождь, то можно ли ожидать, что через 72 часа будет солнечная погода?", 5)
 
-	resText, err := openRouterClient.RequestLLM("ты пират, отвечай как пират", []string{"Сколько время?"})
+	//fmt.Println("Финальный ответ: \n", answer)
 
-	if err != nil {
-		fmt.Println("ну параша", err)
-	}
+	answer, _ := execs.PlanExecute("Объясни новичку, что такое AI-агент")
 
-	fmt.Println(resText)
+	fmt.Println(answer)
 }

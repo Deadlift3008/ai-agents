@@ -71,7 +71,7 @@ type OpenRouter struct {
 	apiKey string
 }
 
-func (o *OpenRouter) RequestLLM(systemPrompt string, userContexts []string) (string, error) {
+func (o *OpenRouter) RequestLLM(systemPrompt string, userContexts []Message) (string, error) {
 	payload := ChatRequest{
 		Model: "deepseek/deepseek-v4-flash",
 		Messages: []Message{
@@ -80,7 +80,7 @@ func (o *OpenRouter) RequestLLM(systemPrompt string, userContexts []string) (str
 	}
 
 	for _, userContext := range userContexts {
-		payload.Messages = append(payload.Messages, Message{Role: "user", Content: userContext})
+		payload.Messages = append(payload.Messages, userContext)
 	}
 
 	// 1. Маршалим в JSON
